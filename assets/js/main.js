@@ -362,25 +362,30 @@
   const catalogClose = document.getElementById("catalog-close");
   const catalogGrid = document.getElementById("catalog-grid");
 
-  MASCOTS.forEach((data) => {
-    const item = document.createElement("button");
-    item.type = "button";
-    item.className = "catalog-item";
-    item.dataset.mascot = data.id;
-    item.setAttribute("aria-pressed", "false");
-    item.innerHTML = `
-      <span class="catalog-item-check" aria-hidden="true">&#10003;</span>
-      <svg viewBox="0 0 120 130" width="64" height="70" aria-hidden="true">${renderMascotMarkup(data)}</svg>
-      <span class="mascot-label">${data.name}</span>
-      <p class="catalog-desc">${data.blurb}</p>`;
-    item.addEventListener("click", () => setActiveMascot(data.id));
-    catalogGrid.appendChild(item);
-  });
-  document.querySelectorAll(".catalog-item").forEach((el) => {
-    const selected = el.dataset.mascot === savedMascot;
-    el.classList.toggle("is-selected", selected);
-    el.setAttribute("aria-pressed", String(selected));
-  });
+  // Guard against a stale cache mismatch (old HTML without #catalog-grid,
+  // paired with newer JS, or vice versa) — skip populating instead of
+  // throwing and taking down the rest of the script.
+  if (catalogGrid) {
+    MASCOTS.forEach((data) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "catalog-item";
+      item.dataset.mascot = data.id;
+      item.setAttribute("aria-pressed", "false");
+      item.innerHTML = `
+        <span class="catalog-item-check" aria-hidden="true">&#10003;</span>
+        <svg viewBox="0 0 120 130" width="64" height="70" aria-hidden="true">${renderMascotMarkup(data)}</svg>
+        <span class="mascot-label">${data.name}</span>
+        <p class="catalog-desc">${data.blurb}</p>`;
+      item.addEventListener("click", () => setActiveMascot(data.id));
+      catalogGrid.appendChild(item);
+    });
+    document.querySelectorAll(".catalog-item").forEach((el) => {
+      const selected = el.dataset.mascot === savedMascot;
+      el.classList.toggle("is-selected", selected);
+      el.setAttribute("aria-pressed", String(selected));
+    });
+  }
 
   catalogBtn.addEventListener("click", () => {
     closeStartMenu();
@@ -398,6 +403,12 @@
 
   heroMin.addEventListener("click", () => {
     const minimized = heroWindow.classList.toggle("is-minimized");
+    // Mascot/desktop-icon may have been dragged out of .window-body (they get
+    // reparented to <body> on first drag), so hiding .window-body alone won't
+    // hide them anymore — toggle them explicitly, wherever they currently live.
+    mascot.classList.toggle("is-hero-hidden", minimized);
+    desktopIcon.classList.toggle("is-hero-hidden", minimized);
+    if (minimized) notepad.hidden = true;
     toast(minimized ? "Minimized. It's still here, just shy." : "Restored.");
   });
   heroMax.addEventListener("click", () => {

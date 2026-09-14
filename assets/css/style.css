@@ -262,6 +262,7 @@ button.win-dot-close:hover { background: var(--coral); color: #fff; }
   background: none; border: none; cursor: grab; touch-action: none; display: flex; flex-direction: column; align-items: center;
   gap: 6px; position: relative; user-select: none; padding: 8px; -webkit-tap-highlight-color: transparent;
 }
+.is-hero-hidden { display: none !important; }
 .mascot:active { cursor: grabbing; }
 .mascot svg { animation: mascot-bob 3.6s ease-in-out infinite; filter: drop-shadow(0 12px 18px rgba(42, 92, 219, .25)); }
 @keyframes mascot-bob { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(-1.5deg); } }
