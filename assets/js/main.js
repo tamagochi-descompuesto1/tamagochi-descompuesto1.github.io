@@ -303,6 +303,12 @@
   ];
 
   function renderMascotMarkup(mascotData) {
+    // A mascot is either hand-coded vector paths (`svg`) or a raster/GIF
+    // asset (`img`, e.g. something exported from wigglypaint.com) embedded
+    // via SVG's <image>, so both kinds share the same hero/catalog plumbing.
+    if (mascotData.img) {
+      return `<image href="${mascotData.img}" x="14" y="10" width="92" height="100" preserveAspectRatio="xMidYMid meet"/>`;
+    }
     const gid = `mg_${mascotData.id}_${Math.random().toString(36).slice(2, 8)}`;
     return mascotData.svg.replace(/GRADID/g, gid);
   }
