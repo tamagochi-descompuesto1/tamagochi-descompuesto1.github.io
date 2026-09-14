@@ -192,6 +192,10 @@
       offsetX = e.clientX - rect.left;
       offsetY = e.clientY - rect.top;
       el.classList.add("is-dragging");
+      // Reparent to <body>: a transformed ancestor (e.g. a revealed .window)
+      // would otherwise become the containing block for position:fixed and
+      // clip the element via its own overflow:hidden.
+      if (el.parentElement !== document.body) document.body.appendChild(el);
       el.style.position = "fixed";
       el.style.left = rect.left + "px";
       el.style.top = rect.top + "px";
