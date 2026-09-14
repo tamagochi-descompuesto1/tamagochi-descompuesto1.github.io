@@ -130,20 +130,22 @@
   }
 
   /* ============ scroll reveal ============ */
-  const revealEls = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && !prefersReducedMotion) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
-    revealEls.forEach((el) => io.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("is-visible"));
+  const revealSupported = "IntersectionObserver" in window && !prefersReducedMotion;
+  const revealIO = revealSupported
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" })
+    : null;
+  function observeReveal(el) {
+    if (revealIO) revealIO.observe(el);
+    else el.classList.add("is-visible");
   }
+  document.querySelectorAll(".reveal").forEach(observeReveal);
 
   /* ============ taskbar start menu ============ */
   const startBtn = document.getElementById("start-btn");
@@ -333,9 +335,15 @@
   }
 
   /* ============ Game of Life widget ============ */
-  (function initGoL() {
+  // Called once the #gol-canvas markup exists in the DOM (it's injected
+  // dynamically as part of the Conway-GoL project card, after the GitHub
+  // repo list loads) — never runs automatically at parse time.
+  let golInited = false;
+  function initGoL() {
+    if (golInited) return;
     const canvas = document.getElementById("gol-canvas");
     if (!canvas) return;
+    golInited = true;
     const ctx = canvas.getContext("2d");
     const cols = 40, rows = 18;
     let cellW, cellH;
@@ -447,6 +455,170 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
     seedRandom();
-  })();
+  }
+
+  /* ============ live projects from GitHub ============ */
+  const GITHUB_USER = "tamagochi-descompuesto1";
+  const GITHUB_EXCLUDED = new Set([GITHUB_USER, GITHUB_USER + ".github.io"]);
+  const PROJECTS_CACHE_KEY = "github-projects-cache-v1";
+  const PROJECTS_CACHE_TTL = 10 * 60 * 1000;
+
+  const FALLBACK_PROJECTS = [
+    {
+      name: "nlp-examples", url: "https://github.com/tamagochi-descompuesto1/nlp-examples",
+      description: "Three bite-sized NLP demos in one repo: sentiment analysis on movie reviews, named entity recognition on tweets, and a slightly petty API-vs-API translation bake-off. BLEU scores don't lie.",
+      tags: ["NLP", "HuggingFace", "NER", "Sentiment"], language: "JavaScript",
+    },
+    {
+      name: "NLP-NAS", url: "https://github.com/tamagochi-descompuesto1/NLP-NAS",
+      description: "Neural Architecture Search for text-generation networks — teaching a search algorithm to design its own model instead of me guessing hyperparameters at 2am.",
+      tags: ["NAS", "Deep Learning", "Text Generation"], language: "Python",
+    },
+    {
+      name: "nas4textgen", url: "https://github.com/tamagochi-descompuesto1/nas4textgen",
+      description: "My Master's thesis project: hardware-aware NAS for text generation on a Jetson Orin Nano — squeezing DistilGPT2-scale models onto a dev kit instead of a data center.",
+      tags: ["NAS", "Edge AI", "Jetson", "Thesis"], language: "Jupyter Notebook",
+    },
+    {
+      name: "snake-DQN", url: "https://github.com/tamagochi-descompuesto1/snake-DQN",
+      description: "A deep Q-network learns Snake from scratch — no RL library, just the Bellman equation and spite. Turned out the bottleneck wasn't learning, it was information: better reward shaping took the record from ~130 to ~530.",
+      tags: ["Reinforcement Learning", "DQN", "PyTorch"], language: "Python",
+    },
+    {
+      name: "Conway-GoL", url: "https://github.com/tamagochi-descompuesto1/Conway-GoL",
+      description: "Conway's Game of Life, but configurable: five rulesets, three boundary modes, a pattern library, and a population chart — because plain B3/S23 wasn't fussy enough. Poke the live version below (click cells, hit play).",
+      tags: ["Cellular Automata", "NumPy", "Simulation"], language: "Python",
+    },
+  ];
+
+  const LANG_EXT = {
+    Python: "py", JavaScript: "js", TypeScript: "ts", "Jupyter Notebook": "ipynb",
+    HTML: "html", CSS: "css", "C++": "cpp", C: "c", Java: "java", Go: "go", Rust: "rs",
+  };
+
+  function fileNameFor(repoName, language) {
+    const ext = LANG_EXT[language];
+    return ext ? `${repoName.toLowerCase()}.${ext}` : repoName.toLowerCase();
+  }
+
+  function timeAgo(dateStr) {
+    const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
+    if (days < 1) return "today";
+    if (days === 1) return "yesterday";
+    if (days < 30) return days + "d ago";
+    const months = Math.floor(days / 30);
+    if (months < 12) return months + "mo ago";
+    return Math.floor(months / 12) + "y ago";
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function buildProjectCard(project) {
+    const isWide = /^conway-gol$/i.test(project.name);
+    const article = document.createElement("article");
+    article.className = "window project-card reveal" + (isWide ? " project-card-wide" : "");
+
+    const tagsHtml = (project.tags || []).slice(0, 5).map((t) => `<li class="chip">${escapeHtml(t)}</li>`).join("");
+    const metaBits = [];
+    if (project.stars) metaBits.push("★ " + project.stars);
+    if (project.updated) metaBits.push("updated " + timeAgo(project.updated));
+    const metaHtml = metaBits.length ? `<p class="project-meta">${metaBits.join(" · ")}</p>` : "";
+
+    article.innerHTML = `
+      <div class="window-titlebar">
+        <span class="window-title">
+          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 3h12v8H8l-3 3v-3H2z" fill="currentColor"/></svg>
+          ${escapeHtml(fileNameFor(project.name, project.language))}
+        </span>
+        <span class="window-controls" aria-hidden="true"><span class="win-dot win-dot-min"></span><span class="win-dot win-dot-max"></span><span class="win-dot win-dot-close"></span></span>
+      </div>
+      <div class="window-body">
+        <p>${escapeHtml(project.description || "No description yet — you know how it is.")}</p>
+        ${metaHtml}
+        <ul class="chip-list chip-list-tags">${tagsHtml}</ul>
+        <a class="project-link" href="${project.url}" target="_blank" rel="noopener">Open repo <span aria-hidden="true">↗</span></a>
+      </div>`;
+
+    if (isWide) {
+      const widget = document.createElement("div");
+      widget.className = "gol-widget";
+      widget.innerHTML = `
+        <canvas id="gol-canvas" width="480" height="220" role="img" aria-label="Interactive Game of Life grid. Click cells to toggle them, then press Play."></canvas>
+        <div class="gol-controls">
+          <button id="gol-play" class="btn btn-small btn-primary" type="button">Play</button>
+          <button id="gol-random" class="btn btn-small btn-secondary" type="button">Random</button>
+          <button id="gol-clear" class="btn btn-small btn-secondary" type="button">Clear</button>
+          <span class="gol-gen">Gen <span id="gol-gen-count">0</span></span>
+        </div>`;
+      article.querySelector(".window-body").appendChild(widget);
+    }
+    return article;
+  }
+
+  function renderProjects(list, statusText) {
+    const grid = document.getElementById("projects-grid");
+    const status = document.getElementById("projects-status");
+    grid.innerHTML = "";
+    if (!list.length) {
+      status.hidden = false;
+      status.classList.add("is-error");
+      status.textContent = "No projects to show right now — check GitHub directly.";
+      return;
+    }
+    list.forEach((project) => {
+      const card = buildProjectCard(project);
+      grid.appendChild(card);
+      observeReveal(card);
+    });
+    status.classList.toggle("is-error", Boolean(statusText));
+    status.hidden = !statusText;
+    if (statusText) status.textContent = statusText;
+    if (document.getElementById("gol-canvas")) initGoL();
+  }
+
+  function mapRepo(repo) {
+    return {
+      name: repo.name,
+      description: repo.description,
+      url: repo.html_url,
+      language: repo.language,
+      tags: [repo.language, ...(repo.topics || [])].filter(Boolean),
+      stars: repo.stargazers_count,
+      updated: repo.pushed_at || repo.updated_at,
+    };
+  }
+
+  async function loadProjects() {
+    try {
+      const cached = sessionStorage.getItem(PROJECTS_CACHE_KEY);
+      if (cached) {
+        const { time, projects } = JSON.parse(cached);
+        if (Date.now() - time < PROJECTS_CACHE_TTL && Array.isArray(projects) && projects.length) {
+          renderProjects(projects);
+          return;
+        }
+      }
+    } catch (e) { /* corrupt cache, ignore and refetch */ }
+
+    try {
+      const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=100`, {
+        headers: { Accept: "application/vnd.github+json" },
+      });
+      if (!res.ok) throw new Error("GitHub API responded " + res.status);
+      const repos = await res.json();
+      const projects = repos.filter((r) => !r.fork && !GITHUB_EXCLUDED.has(r.name)).map(mapRepo);
+      if (!projects.length) throw new Error("no repos returned");
+      renderProjects(projects);
+      try {
+        sessionStorage.setItem(PROJECTS_CACHE_KEY, JSON.stringify({ time: Date.now(), projects }));
+      } catch (e) { /* storage unavailable, skip caching */ }
+    } catch (err) {
+      renderProjects(FALLBACK_PROJECTS, "Couldn't reach the GitHub API just now — showing a cached lineup instead.");
+    }
+  }
+
+  loadProjects();
 
 })();

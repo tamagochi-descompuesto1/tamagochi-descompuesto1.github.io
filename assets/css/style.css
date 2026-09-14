@@ -322,9 +322,13 @@ button.win-dot-close:hover { filter: brightness(1.1); }
 .chip-list-tags { margin: .8em 0 1.2em; }
 
 /* ============ projects ============ */
+.projects-status { text-align: center; color: var(--ink-faint); font-family: var(--font-mono); font-size: .85rem; margin: 0 0 1.4em; }
+.projects-status[hidden] { display: none; }
+.projects-status.is-error { color: var(--coral-dark); }
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
 .project-card-wide { grid-column: 1 / -1; }
 .project-card .window-body p { color: var(--ink-soft); }
+.project-meta { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-faint); margin: -.6em 0 1em; }
 .project-link { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; text-decoration: none; }
 .project-link:hover { text-decoration: underline; }
 

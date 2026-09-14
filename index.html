@@ -218,106 +218,10 @@
   <!-- ===================== PROJECTS ===================== -->
   <section id="projects" class="section">
     <h2 class="section-heading reveal">Projects</h2>
-    <p class="section-sub reveal">A few things I've built, mostly to answer questions nobody asked me.</p>
+    <p class="section-sub reveal">Pulled live from <a href="https://github.com/tamagochi-descompuesto1" target="_blank" rel="noopener">github.com/tamagochi-descompuesto1</a> — new repos show up here on their own.</p>
 
-    <div class="projects-grid">
-
-      <article class="window project-card reveal">
-        <div class="window-titlebar">
-          <span class="window-title">
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 3h12v8H8l-3 3v-3H2z" fill="currentColor"/></svg>
-            nlp-examples.js
-          </span>
-          <span class="window-controls" aria-hidden="true"><span class="win-dot win-dot-min"></span><span class="win-dot win-dot-max"></span><span class="win-dot win-dot-close"></span></span>
-        </div>
-        <div class="window-body">
-          <p>Three bite-sized NLP demos in one repo: sentiment analysis on movie reviews, named entity recognition on tweets, and a slightly petty API-vs-API translation bake-off. BLEU scores don't lie.</p>
-          <ul class="chip-list chip-list-tags">
-            <li class="chip">NLP</li><li class="chip">HuggingFace</li><li class="chip">NER</li><li class="chip">Sentiment</li>
-          </ul>
-          <a class="project-link" href="https://github.com/tamagochi-descompuesto1/nlp-examples" target="_blank" rel="noopener">Open repo <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
-
-      <article class="window project-card reveal">
-        <div class="window-titlebar">
-          <span class="window-title">
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="2" fill="currentColor"/><circle cx="2.5" cy="3" r="1.5" fill="currentColor"/><circle cx="13.5" cy="3" r="1.5" fill="currentColor"/><circle cx="2.5" cy="13" r="1.5" fill="currentColor"/><circle cx="13.5" cy="13" r="1.5" fill="currentColor"/><path d="M8 8L2.5 3M8 8l5.5-5M8 8l-5.5 5M8 8l5.5 5" stroke="currentColor" stroke-width="1"/></svg>
-            nlp-nas.py
-          </span>
-          <span class="window-controls" aria-hidden="true"><span class="win-dot win-dot-min"></span><span class="win-dot win-dot-max"></span><span class="win-dot win-dot-close"></span></span>
-        </div>
-        <div class="window-body">
-          <p>Neural Architecture Search for text-generation networks — teaching a search algorithm to design its own model instead of me guessing hyperparameters at 2am.</p>
-          <ul class="chip-list chip-list-tags">
-            <li class="chip">NAS</li><li class="chip">Deep Learning</li><li class="chip">Text Generation</li>
-          </ul>
-          <a class="project-link" href="https://github.com/tamagochi-descompuesto1/NLP-NAS" target="_blank" rel="noopener">Open repo <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
-
-      <article class="window project-card reveal">
-        <div class="window-titlebar">
-          <span class="window-title">
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2" fill="currentColor"/><rect x="5" y="5" width="6" height="6" rx="1" fill="var(--cream)"/></svg>
-            nas4textgen.ipynb
-          </span>
-          <span class="window-controls" aria-hidden="true"><span class="win-dot win-dot-min"></span><span class="win-dot win-dot-max"></span><span class="win-dot win-dot-close"></span></span>
-        </div>
-        <div class="window-body">
-          <p>My Master's thesis project: hardware-aware NAS for text generation on a Jetson Orin Nano — squeezing DistilGPT2-scale models onto a dev kit instead of a data center.</p>
-          <ul class="chip-list chip-list-tags">
-            <li class="chip">NAS</li><li class="chip">Edge AI</li><li class="chip">Jetson</li><li class="chip">Thesis</li>
-          </ul>
-          <a class="project-link" href="https://github.com/tamagochi-descompuesto1/nas4textgen" target="_blank" rel="noopener">Open repo <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
-
-      <article class="window project-card reveal">
-        <div class="window-titlebar">
-          <span class="window-title">
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 8c2-4 4-4 5 0s3 4 5 0" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="13" cy="4" r="1.4" fill="currentColor"/></svg>
-            snake_dqn.py
-          </span>
-          <span class="window-controls" aria-hidden="true"><span class="win-dot win-dot-min"></span><span class="win-dot win-dot-max"></span><span class="win-dot win-dot-close"></span></span>
-        </div>
-        <div class="window-body">
-          <p>A deep Q-network learns Snake from scratch — no RL library, just the Bellman equation and spite. Turned out the bottleneck wasn't learning, it was information: better reward shaping took the record from ~130 to ~530.</p>
-          <ul class="chip-list chip-list-tags">
-            <li class="chip">Reinforcement Learning</li><li class="chip">DQN</li><li class="chip">PyTorch</li>
-          </ul>
-          <a class="project-link" href="https://github.com/tamagochi-descompuesto1/snake-DQN" target="_blank" rel="noopener">Open repo <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
-
-      <article class="window project-card project-card-wide reveal">
-        <div class="window-titlebar">
-          <span class="window-title">
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="1" y="1" width="4" height="4" fill="currentColor"/><rect x="6" y="1" width="4" height="4" fill="currentColor" opacity=".4"/><rect x="11" y="6" width="4" height="4" fill="currentColor"/><rect x="1" y="11" width="4" height="4" fill="currentColor" opacity=".4"/><rect x="6" y="11" width="4" height="4" fill="currentColor"/></svg>
-            game_of_life.py
-          </span>
-          <span class="window-controls" aria-hidden="true"><span class="win-dot win-dot-min"></span><span class="win-dot win-dot-max"></span><span class="win-dot win-dot-close"></span></span>
-        </div>
-        <div class="window-body">
-          <p>Conway's Game of Life, but configurable: five rulesets, three boundary modes, a pattern library, and a population chart — because plain B3/S23 wasn't fussy enough. Poke the live version below (click cells, hit play).</p>
-          <ul class="chip-list chip-list-tags">
-            <li class="chip">Cellular Automata</li><li class="chip">NumPy</li><li class="chip">Simulation</li>
-          </ul>
-          <a class="project-link" href="https://github.com/tamagochi-descompuesto1/Conway-GoL" target="_blank" rel="noopener">Open repo <span aria-hidden="true">↗</span></a>
-
-          <div class="gol-widget">
-            <canvas id="gol-canvas" width="480" height="220" role="img" aria-label="Interactive Game of Life grid. Click cells to toggle them, then press Play."></canvas>
-            <div class="gol-controls">
-              <button id="gol-play" class="btn btn-small btn-primary" type="button">Play</button>
-              <button id="gol-random" class="btn btn-small btn-secondary" type="button">Random</button>
-              <button id="gol-clear" class="btn btn-small btn-secondary" type="button">Clear</button>
-              <span class="gol-gen">Gen <span id="gol-gen-count">0</span></span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-    </div>
+    <p id="projects-status" class="projects-status" role="status">Loading projects from GitHub…</p>
+    <div class="projects-grid" id="projects-grid"></div>
   </section>
 
   <!-- ===================== CONTACT ===================== -->
