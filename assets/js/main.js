@@ -219,6 +219,13 @@
       if (!dragging) return;
       dragging = false;
       el.classList.remove("is-dragging");
+      // Drop back into normal document flow at this page position (instead of
+      // staying position:fixed, which would keep it pinned to the viewport
+      // and make it "chase" the cursor on every subsequent scroll).
+      const rect = el.getBoundingClientRect();
+      el.style.position = "absolute";
+      el.style.left = (rect.left + window.scrollX) + "px";
+      el.style.top = (rect.top + window.scrollY) + "px";
       try { el.releasePointerCapture(e.pointerId); } catch (err) { /* noop */ }
     }
     el.addEventListener("pointerup", endDrag);
