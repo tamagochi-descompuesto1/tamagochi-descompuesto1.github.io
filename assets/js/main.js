@@ -236,12 +236,108 @@
     return () => moved;
   }
 
+  /* ============ mascot registry (shared by hero + catalog) ============ */
+  const MASCOTS = [
+    {
+      id: "byte", name: "Byte",
+      blurb: "The original. A small nod to the handle. He's the one you can drag around up top.",
+      svg: `<ellipse cx="60" cy="118" rx="26" ry="6" fill="#000" opacity=".08"/>
+        <path d="M60 22 L60 8" stroke="#2A5CDB" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="60" cy="7" r="5" fill="#FF6B4A"/>
+        <path d="M60 20c26 0 40 20 40 46 0 28-18 44-40 44S20 94 20 66c0-26 14-46 40-46z" fill="url(#GRADID)" stroke="#1A3F9E" stroke-width="2"/>
+        <rect x="34" y="52" width="52" height="30" rx="8" fill="#0F1229"/>
+        <circle cx="50" cy="67" r="4.2" fill="#5B8DEF"/><circle cx="70" cy="67" r="4.2" fill="#5B8DEF"/>
+        <path d="M52 76q8 6 16 0" stroke="#5B8DEF" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="38" cy="72" rx="5" ry="3.4" fill="#FF6B4A" opacity=".55"/><ellipse cx="82" cy="72" rx="5" ry="3.4" fill="#FF6B4A" opacity=".55"/>
+        <path d="M30 104c-6 4-10 4-16 2M90 104c6 4 10 4 16 2" stroke="#1A3F9E" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <defs><linearGradient id="GRADID" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7BA6FF"/><stop offset="1" stop-color="#2A5CDB"/></linearGradient></defs>`,
+    },
+    {
+      id: "pixel", name: "Pixel",
+      blurb: "Allergic to anti-aliasing. Refuses to render at anything but whole numbers.",
+      svg: `<ellipse cx="60" cy="118" rx="26" ry="6" fill="#000" opacity=".08"/>
+        <rect x="28" y="22" width="14" height="16" fill="url(#GRADID)" stroke="#8E1F5A" stroke-width="2"/>
+        <rect x="78" y="22" width="14" height="16" fill="url(#GRADID)" stroke="#8E1F5A" stroke-width="2"/>
+        <rect x="22" y="36" width="76" height="68" fill="url(#GRADID)" stroke="#8E1F5A" stroke-width="2"/>
+        <rect x="36" y="54" width="48" height="30" fill="#0F1229"/>
+        <rect x="46" y="63" width="8" height="8" fill="#FF7FC0"/><rect x="66" y="63" width="8" height="8" fill="#FF7FC0"/>
+        <rect x="50" y="76" width="20" height="4" fill="#FF7FC0"/>
+        <rect x="30" y="104" width="12" height="10" fill="url(#GRADID)" stroke="#8E1F5A" stroke-width="2"/>
+        <rect x="78" y="104" width="12" height="10" fill="url(#GRADID)" stroke="#8E1F5A" stroke-width="2"/>
+        <defs><linearGradient id="GRADID" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7FC0"/><stop offset="1" stop-color="#E8409A"/></linearGradient></defs>`,
+    },
+    {
+      id: "circuit", name: "Circuit",
+      blurb: "Hums faintly at 60Hz. Overheats a little if you stare too long.",
+      svg: `<ellipse cx="60" cy="118" rx="26" ry="6" fill="#000" opacity=".08"/>
+        <polygon points="60,14 96,36 96,84 60,106 24,84 24,36" fill="url(#GRADID)" stroke="#0F5B36" stroke-width="2"/>
+        <rect x="36" y="52" width="48" height="30" rx="4" fill="#0F1229"/>
+        <circle cx="50" cy="67" r="4" fill="#8FF0B4"/><circle cx="70" cy="67" r="4" fill="#8FF0B4"/>
+        <path d="M52 76q8 5 16 0" stroke="#8FF0B4" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M24 50h-12v12M96 50h12v12M24 70h-12v12M96 70h12v12" stroke="#1FAE63" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <defs><linearGradient id="GRADID" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FE0A6"/><stop offset="1" stop-color="#1FAE63"/></linearGradient></defs>`,
+    },
+    {
+      id: "glitch", name: "Glitch",
+      blurb: "Occasionally renders in two places at once. Feature, not bug.",
+      svg: `<ellipse cx="60" cy="118" rx="26" ry="6" fill="#000" opacity=".08"/>
+        <polygon points="60,12 82,30 68,52 90,60 66,78 78,100 51,111 33,90 42,68 20,60 40,44 30,24" fill="#FF6B4A" opacity=".3" transform="translate(-3,1)"/>
+        <polygon points="60,12 82,30 68,52 90,60 66,78 78,100 51,111 33,90 42,68 20,60 40,44 30,24" fill="#3DDC84" opacity=".3" transform="translate(3,-1)"/>
+        <polygon points="60,12 82,30 68,52 90,60 66,78 78,100 51,111 33,90 42,68 20,60 40,44 30,24" fill="url(#GRADID)" stroke="#4A2E9E" stroke-width="2"/>
+        <rect x="38" y="50" width="44" height="28" rx="4" fill="#0F1229"/>
+        <circle cx="51" cy="64" r="4" fill="#C9B6FF"/><circle cx="69" cy="64" r="4" fill="#C9B6FF"/>
+        <path d="M51 72h18" stroke="#C9B6FF" stroke-width="2.2" stroke-linecap="round"/>
+        <defs><linearGradient id="GRADID" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B39BFF"/><stop offset="1" stop-color="#7C4FE0"/></linearGradient></defs>`,
+    },
+    {
+      id: "nibble", name: "Nibble",
+      blurb: "Byte's shadow. Half the size, twice the opinions.",
+      svg: `<ellipse cx="60" cy="118" rx="20" ry="5" fill="#000" opacity=".08"/>
+        <path d="M60 30 L60 18" stroke="#B23A22" stroke-width="2.4" stroke-linecap="round"/><circle cx="60" cy="16" r="3.6" fill="#2A5CDB"/>
+        <polygon points="60,30 88,64 60,98 32,64" fill="url(#GRADID)" stroke="#B23A22" stroke-width="2"/>
+        <rect x="40" y="54" width="40" height="24" rx="4" fill="#0F1229"/>
+        <circle cx="52" cy="66" r="3.6" fill="#FFC5B4"/><circle cx="68" cy="66" r="3.6" fill="#FFC5B4"/>
+        <path d="M52 72q8 4 16 0" stroke="#FFC5B4" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <defs><linearGradient id="GRADID" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9C87"/><stop offset="1" stop-color="#E14B2A"/></linearGradient></defs>`,
+    },
+  ];
+
+  function renderMascotMarkup(mascotData) {
+    const gid = `mg_${mascotData.id}_${Math.random().toString(36).slice(2, 8)}`;
+    return mascotData.svg.replace(/GRADID/g, gid);
+  }
+
   /* ============ mascot drag + easter egg progress ============ */
   const mascot = document.getElementById("mascot");
+  const mascotSvg = document.getElementById("mascot-svg");
+  const mascotLabelEl = mascot.querySelector(".mascot-label");
+  let activeMascotName = "Byte";
+
+  function setActiveMascot(id, opts = {}) {
+    const data = MASCOTS.find((m) => m.id === id) || MASCOTS[0];
+    mascotSvg.innerHTML = renderMascotMarkup(data);
+    mascotLabelEl.textContent = data.name;
+    mascot.setAttribute("aria-label", `${data.name}, the office mascot. Drag me around.`);
+    activeMascotName = data.name;
+    if (!opts.silent) {
+      try { localStorage.setItem("active-mascot", id); } catch (e) { /* storage unavailable */ }
+      toast(`${data.name} is now running the hero section.`);
+    }
+    document.querySelectorAll(".catalog-item").forEach((el) => {
+      const selected = el.dataset.mascot === data.id;
+      el.classList.toggle("is-selected", selected);
+      el.setAttribute("aria-pressed", String(selected));
+    });
+  }
+
+  let savedMascot = "byte";
+  try { savedMascot = localStorage.getItem("active-mascot") || "byte"; } catch (e) { /* storage unavailable */ }
+  setActiveMascot(savedMascot, { silent: true });
+
   let mascotWasMoved = false;
   const mascotMoved = makeDraggable(mascot);
   mascot.addEventListener("pointerup", () => {
-    if (mascotMoved() && !mascotWasMoved) { mascotWasMoved = true; toast("Byte appreciates the field trip."); }
+    if (mascotMoved() && !mascotWasMoved) { mascotWasMoved = true; toast(`${activeMascotName} appreciates the field trip.`); }
   });
 
   /* ============ desktop icon drag + notepad ============ */
@@ -264,6 +360,28 @@
   const catalogBtn = document.getElementById("catalog-btn");
   const catalog = document.getElementById("mascot-catalog");
   const catalogClose = document.getElementById("catalog-close");
+  const catalogGrid = document.getElementById("catalog-grid");
+
+  MASCOTS.forEach((data) => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "catalog-item";
+    item.dataset.mascot = data.id;
+    item.setAttribute("aria-pressed", "false");
+    item.innerHTML = `
+      <span class="catalog-item-check" aria-hidden="true">&#10003;</span>
+      <svg viewBox="0 0 120 130" width="64" height="70" aria-hidden="true">${renderMascotMarkup(data)}</svg>
+      <span class="mascot-label">${data.name}</span>
+      <p class="catalog-desc">${data.blurb}</p>`;
+    item.addEventListener("click", () => setActiveMascot(data.id));
+    catalogGrid.appendChild(item);
+  });
+  document.querySelectorAll(".catalog-item").forEach((el) => {
+    const selected = el.dataset.mascot === savedMascot;
+    el.classList.toggle("is-selected", selected);
+    el.setAttribute("aria-pressed", String(selected));
+  });
+
   catalogBtn.addEventListener("click", () => {
     closeStartMenu();
     catalog.hidden = false;

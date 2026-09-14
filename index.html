@@ -116,7 +116,7 @@
         </div>
         <div class="hero-stage">
           <button id="mascot" class="mascot" type="button" aria-label="Byte, the office mascot. Drag me around.">
-            <svg viewBox="0 0 120 130" width="150" height="160" aria-hidden="true">
+            <svg id="mascot-svg" viewBox="0 0 120 130" width="150" height="160" aria-hidden="true">
               <ellipse cx="60" cy="118" rx="26" ry="6" fill="#000" opacity=".08"/>
               <path class="mascot-antenna-wire" d="M60 22 L60 8" stroke="#2A5CDB" stroke-width="3" stroke-linecap="round"/>
               <circle class="mascot-antenna-ball" cx="60" cy="7" r="5" fill="#FF6B4A"/>
@@ -180,76 +180,8 @@
       </span>
     </div>
     <div class="notepad-body catalog-body">
-      <p class="catalog-lede">Byte has friends. They mostly stay in here.</p>
-      <div class="catalog-grid">
-
-        <div class="catalog-item">
-          <svg viewBox="0 0 80 88" width="64" height="70" aria-hidden="true">
-            <path d="M40 14c17 0 27 13 27 30 0 19-12 30-27 30S13 63 13 44c0-17 10-30 27-30z" fill="url(#catByteGrad)" stroke="#1A3F9E" stroke-width="2"/>
-            <rect x="22" y="36" width="36" height="20" rx="5" fill="#0F1229"/>
-            <circle cx="33" cy="46" r="2.8" fill="#5B8DEF"/><circle cx="47" cy="46" r="2.8" fill="#5B8DEF"/>
-            <path d="M34 52q6 4 12 0" stroke="#5B8DEF" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            <path d="M40 14V6" stroke="#2A5CDB" stroke-width="2.4" stroke-linecap="round"/><circle cx="40" cy="5" r="3.4" fill="#FF6B4A"/>
-            <defs><linearGradient id="catByteGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7BA6FF"/><stop offset="1" stop-color="#2A5CDB"/></linearGradient></defs>
-          </svg>
-          <span class="mascot-label">Byte</span>
-          <p class="catalog-desc">The original. A small nod to the handle. He's the one you can drag around up top.</p>
-        </div>
-
-        <div class="catalog-item">
-          <svg viewBox="0 0 80 88" width="64" height="70" aria-hidden="true">
-            <rect x="15" y="26" width="50" height="48" fill="url(#catPixelGrad)" stroke="#8E1F5A" stroke-width="2"/>
-            <rect x="20" y="12" width="10" height="14" fill="url(#catPixelGrad)" stroke="#8E1F5A" stroke-width="2"/>
-            <rect x="50" y="12" width="10" height="14" fill="url(#catPixelGrad)" stroke="#8E1F5A" stroke-width="2"/>
-            <rect x="24" y="40" width="32" height="20" fill="#0F1229"/>
-            <rect x="31" y="47" width="5" height="5" fill="#FF7FC0"/><rect x="45" y="47" width="5" height="5" fill="#FF7FC0"/>
-            <rect x="33" y="56" width="14" height="3" fill="#FF7FC0"/>
-            <defs><linearGradient id="catPixelGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7FC0"/><stop offset="1" stop-color="#E8409A"/></linearGradient></defs>
-          </svg>
-          <span class="mascot-label">Pixel</span>
-          <p class="catalog-desc">Allergic to anti-aliasing. Refuses to render at anything but whole numbers.</p>
-        </div>
-
-        <div class="catalog-item">
-          <svg viewBox="0 0 80 88" width="64" height="70" aria-hidden="true">
-            <polygon points="40,10 65,26 65,58 40,74 15,58 15,26" fill="url(#catCircuitGrad)" stroke="#0F5B36" stroke-width="2"/>
-            <rect x="24" y="36" width="32" height="20" rx="3" fill="#0F1229"/>
-            <circle cx="34" cy="46" r="2.6" fill="#8FF0B4"/><circle cx="46" cy="46" r="2.6" fill="#8FF0B4"/>
-            <path d="M34 52q6 3 12 0" stroke="#8FF0B4" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            <path d="M15 42h-7v10M65 42h7v10" stroke="#1FAE63" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-            <defs><linearGradient id="catCircuitGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FE0A6"/><stop offset="1" stop-color="#1FAE63"/></linearGradient></defs>
-          </svg>
-          <span class="mascot-label">Circuit</span>
-          <p class="catalog-desc">Hums faintly at 60Hz. Overheats a little if you stare too long.</p>
-        </div>
-
-        <div class="catalog-item">
-          <svg viewBox="0 0 80 88" width="64" height="70" aria-hidden="true">
-            <polygon points="40,8 54,20 46,34 60,40 44,52 52,66 34,74 22,60 28,46 14,40 26,28 20,14" fill="#FF6B4A" opacity=".35"/>
-            <polygon points="42,10 56,22 48,36 62,42 46,54 54,68 36,76 24,62 30,48 16,42 28,30 22,16" fill="#3DDC84" opacity=".35"/>
-            <polygon points="41,9 55,21 47,35 61,41 45,53 53,67 35,75 23,61 29,47 15,41 27,29 21,15" fill="url(#catGlitchGrad)" stroke="#4A2E9E" stroke-width="2"/>
-            <rect x="26" y="34" width="30" height="19" rx="3" fill="#0F1229"/>
-            <circle cx="35" cy="43" r="2.6" fill="#C9B6FF"/><circle cx="47" cy="43" r="2.6" fill="#C9B6FF"/>
-            <path d="M35 49h12" stroke="#C9B6FF" stroke-width="1.8" stroke-linecap="round"/>
-            <defs><linearGradient id="catGlitchGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B39BFF"/><stop offset="1" stop-color="#7C4FE0"/></linearGradient></defs>
-          </svg>
-          <span class="mascot-label">Glitch</span>
-          <p class="catalog-desc">Occasionally renders in two places at once. Feature, not bug.</p>
-        </div>
-
-        <div class="catalog-item">
-          <svg viewBox="0 0 80 88" width="64" height="70" aria-hidden="true">
-            <polygon points="40,16 60,44 40,72 20,44" fill="url(#catNibbleGrad)" stroke="#B23A22" stroke-width="2"/>
-            <rect x="29" y="36" width="22" height="16" rx="3" fill="#0F1229"/>
-            <circle cx="36" cy="44" r="2.2" fill="#FFC5B4"/><circle cx="44" cy="44" r="2.2" fill="#FFC5B4"/>
-            <path d="M40 16V9" stroke="#B23A22" stroke-width="2" stroke-linecap="round"/><circle cx="40" cy="8" r="2.6" fill="#2A5CDB"/>
-            <defs><linearGradient id="catNibbleGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9C87"/><stop offset="1" stop-color="#E14B2A"/></linearGradient></defs>
-          </svg>
-          <span class="mascot-label">Nibble</span>
-          <p class="catalog-desc">Byte's shadow. Half the size, twice the opinions.</p>
-        </div>
-
-      </div>
+      <p class="catalog-lede">Byte has friends. Pick one to take the wheel up top.</p>
+      <div class="catalog-grid" id="catalog-grid"></div>
     </div>
   </div>
 
