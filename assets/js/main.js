@@ -260,6 +260,18 @@
   notepadClose.addEventListener("click", () => { notepad.hidden = true; desktopIcon.focus(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !notepad.hidden) { notepad.hidden = true; } });
 
+  /* ============ mascot catalog ============ */
+  const catalogBtn = document.getElementById("catalog-btn");
+  const catalog = document.getElementById("mascot-catalog");
+  const catalogClose = document.getElementById("catalog-close");
+  catalogBtn.addEventListener("click", () => {
+    closeStartMenu();
+    catalog.hidden = false;
+    catalogClose.focus();
+  });
+  catalogClose.addEventListener("click", () => { catalog.hidden = true; catalogBtn.focus(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !catalog.hidden) { catalog.hidden = true; } });
+
   /* ============ hero window controls ============ */
   const heroWindow = document.querySelector(".hero-window");
   const heroMin = document.getElementById("hero-min");
